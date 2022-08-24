@@ -11,11 +11,12 @@ for (let i = 0; i < rows; i++) {
     }
     graphComponentMatrix.push(row);
 }
-// True -> cyclic, False -> Not cyclic
+
 function isGraphCylic(graphComponentMatrix) {
     // Dependency -> visited, dfsVisited (2D array)
-    let visited = []; // Node visit trace
-    let dfsVisited = []; // Stack visit trace
+    let visited = []; 
+    let dfsVisited = []; 
+    
 
     for (let i = 0; i < rows; i++) {
         let visitedRow = [];

@@ -1,26 +1,28 @@
 //storage
- let sheetDB = [];
- for (let i=0;i<rows; i++){
+ let sheetDB = [];   //sheet database
+
+ for (let i = 0; i < rows; i++){
     let sheetRow =[];
-    for (let j=0; j<cols; j++){
+    for (let j = 0; j < cols; j++){
         let cellProp = {
-            bold:false,
-            italic:false,
-            underline:false,
+            bold : false,
+            italic : false,
+            underline : false,
             alignment : "left",
             fontFamily : "monospace",
             fontSize : "14",
             fontColor : "#000000",
             BGcolor : "#000000" ,      //for black color
             value : "",
-            formula : ""
+            formula : "",
+            children : []
 
-        }
+         }
         sheetRow.push(cellProp)
 
-    }
+      }
     sheetDB.push(sheetRow);
- }
+   }
 
  //selectors for cell properties
  let bold = document.querySelector(".bold");
@@ -108,7 +110,7 @@ BGcolor.addEventListener("change" , (e)=>{
    cell.style.backgroundColor = cellProp.BGcolor; //UI change(1)
    BGcolor.value = cellProp.BGcolor;
 })
-alignment.forEach((alignElem)=>{
+alignment.forEach((alignElem) => {
    alignElem.addEventListener("click" ,(e) => {
       let address = addressBar.value ;
       let [cell ,cellProp] = getCellAndCellProp(address);
@@ -117,7 +119,7 @@ alignment.forEach((alignElem)=>{
       cellProp.alignment = alignValue;  //data change
       cell.style.textAlign = cellProp.alignment; //UI change(1)
 
-      switch(alignValue){
+      switch(alignValue){ //UI change (2)
          case "left" :
             leftAlign.style.backgroundColor = activeColorProp;
             centerAlign.style.backgroundColor = inactiveColorProp;
@@ -138,7 +140,7 @@ alignment.forEach((alignElem)=>{
    })
 })
 let allCells = document.querySelectorAll(".cell");
-for (let i= 0;i<allCells.length;i++){
+for (let i = 0; i < allCells.length; i++){
    addListenerToAttachCellProperties(allCells[i]);
 }
 function addListenerToAttachCellProperties(cell){
@@ -146,8 +148,9 @@ function addListenerToAttachCellProperties(cell){
    cell.addEventListener("click" , (e)=>{
       let address = addressBar.value;
      let [rid ,cid]  = decodeRIDCIDFromAddress(address);
-     let cellProp = sheetDB[rid] [cid];
+     let cellProp = sheetDB[rid][cid];
       //applying cell properties
+
       cell.style.fontWeight = cellProp.bold ? "bold" : "normal"; 
       cell.style.fontStyle = cellProp.italic ? "italic" : "normal"; 
       cell.style.textDecoration = cellProp.underline ? "underline" : "normal"; 
@@ -158,6 +161,7 @@ function addListenerToAttachCellProperties(cell){
       cell.style.textAlign = cellProp.alignment; 
       
       //applying properties UI container
+
       bold.style.backgroundColor = cellProp.bold ? activeColorProp : inactiveColorProp; 
       italic.style.backgroundColor = cellProp.italic ? activeColorProp : inactiveColorProp; 
       underline.style.backgroundColor = cellProp.underline ? activeColorProp : inactiveColorProp; 
@@ -183,30 +187,36 @@ function addListenerToAttachCellProperties(cell){
          break;
 
       }
+      let formulaBar = document.querySelector(".formula-bar");
+    
+      formulaBar.value = cellProp.formula;
+       cell.innerText = cellProp.value;
 
 
-
-
-
-
-
-   })
+   });
 
 
 }
 
- function getCellAndCellProp(address){       //activecell --> get cell and cell properties =getCellAndCellProp()
-    let [rid ,cid] =decodeRIDCIDFromAddress(address);
-    //access cell & storage
-    let cell = document.querySelector(`.cell[rid="${rid}"][cid="${cid}"]`);
-    let cellProp = sheetDB[rid][cid];
-    return [cell ,cellProp];
+ 
+ function getCellAndCellProp(address) {
+   let [rid, cid] = decodeRIDCIDFromAddress(address);
+   // Access cell & storage object
+   let cell = document.querySelector(`.cell[rid="${rid}"][cid="${cid}"]`);
+   let cellProp = sheetDB[rid][cid];
+   return [cell, cellProp];
+}
 
- }
- function decodeRIDCIDFromAddress(address){
-    // address= "A1"
-    let rid = Number(address.slice(1)-1);//"1" -->0
-    let cid = Number(address.charCodeAt(0))- 65;  //"A"-->65
-    return[rid, cid];
+function decodeRIDCIDFromAddress(address) {
+   // address -> "A1+1"
+   console.log(address.slice(1))
+   let rid = Number(address.slice(1)-1); // "1" -> 0
+   console.log(rid)
+   let cid = Number(address.charCodeAt(0)) - 65; // "A" -> 65
+   console.log(cid)
+   return [rid, cid];
+  
+}
 
- }
+
+ 

@@ -190,7 +190,7 @@ function addListenerToAttachCellProperties(cell){
       let formulaBar = document.querySelector(".formula-bar");
     
       formulaBar.value = cellProp.formula;
-       cell.innerText = cellProp.value;
+       cell.value = cellProp.value;
 
 
    });
@@ -208,7 +208,7 @@ function addListenerToAttachCellProperties(cell){
 }
 
 function decodeRIDCIDFromAddress(address) {
-   // address -> "A1+1"
+   // address ->" A1 + 1 "
    console.log(address.slice(1))
    let rid = Number(address.slice(1)-1); // "1" -> 0
    console.log(rid)

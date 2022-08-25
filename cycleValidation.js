@@ -1,4 +1,5 @@
-//storage
+//storage --> 2-d array
+let collectedGraphComponent = [];
 let graphComponentMatrix = [];
 
 for (let i =0 ; i < rows ; i++){

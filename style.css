@@ -95,6 +95,7 @@ body {
     width: 5rem;
     
     width: calc ( 100vw - 2vw );
+    overflow: auto;
     
 }
 .sheet-folder {

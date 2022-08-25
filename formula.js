@@ -41,7 +41,7 @@ formulaBar.addEventListener("keydown" ,(e) => {
             let response = confirm("Your formula is cyclic. Do you want to trace your path?");
             while (response === true) {
                 // Keep on tracking color until user is sartisfied
-                await isGraphCylicTracePath(graphComponentMatrix, cycleResponse); // I want to complete full  iteration of color tracking, so I will attach wait here also
+                await isGraphCylicTracePath(graphComponentMatrix, cycleResponse); //  attach wait to complete full iteration
                 response = confirm("Your formula is cyclic. Do you want to trace your path?");
             }
 

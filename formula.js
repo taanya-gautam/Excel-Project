@@ -31,17 +31,24 @@ formulaBar.addEventListener("keydown" ,(e) => {
         
         
 
-        addChildToGraphComponent(inputFormula ,address);
+        addChildToGraphComponent(inputFormula, address);
         // Check formula is cyclic or not, then only evaluate
         // True -> cycle, False -> Not cyclic
         // console.log(graphComponentMatrix);
-        let isCylic = isGraphCylic();
-        if (isCylic) {
-             alert("Your formula is cyclic");
-             removeChildFromGraphComponent(inputFormula, address);
-             return;
-            
+        let cycleResponse = isGraphCylic(graphComponentMatrix);
+        if (cycleResponse) {
+            // alert("Your formula is cyclic");
+            let response = confirm("Your formula is cyclic. Do you want to trace your path?");
+            while (response === true) {
+                // Keep on tracking color until user is sartisfied
+                await isGraphCylicTracePath(graphComponentMatrix, cycleResponse); // I want to complete full  iteration of color tracking, so I will attach wait here also
+                response = confirm("Your formula is cyclic. Do you want to trace your path?");
+            }
+
+            removeChildFromGraphComponent(inputFormula, address);
+            return;
         }
+
         let evaluatedValue = evaluateFormula(inputFormula);
         // to update UI and cellprop in DB
         setCellUIAndCellProp(evaluatedValue , inputFormula);
